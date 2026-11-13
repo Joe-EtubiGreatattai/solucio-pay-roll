@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/* Same design system as Solucio HR so both apps feel like one product family. */
+
+/* `desk:` = a wide screen with a precise pointer. Compact sizes only there; touch keeps 40px+ targets. */
+@custom-variant desk (@media (min-width: 40rem) and (pointer: fine));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #effcf9;
+  --color-brand-100: #c9f5ec;
+  --color-brand-200: #94e9da;
+  --color-brand-300: #57d5c3;
+  --color-brand-400: #29b9a8;
+  --color-brand-500: #129d8f;
+  --color-brand-600: #0c7e75;
+  --color-brand-700: #0f766e;
+  --color-brand-800: #105550;
+  --color-brand-900: #0b3b38;
+
+  /* Motion: one easing, short durations. Entrances use `backwards` fill, exits `both`. */
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-fade-in: fade-in 0.25s var(--ease-out-soft) backwards;
+  --animate-fade-out: fade-out 0.16s ease-in both;
+  --animate-fade-up: fade-up 0.4s var(--ease-out-soft) backwards;
+  --animate-scale-in: scale-in 0.2s var(--ease-out-soft) backwards;
+  --animate-scale-out: scale-out 0.15s ease-in both;
+  --animate-pop-in: pop-in 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
+  --animate-slide-down: slide-down 0.25s var(--ease-out-soft) backwards;
+  --animate-slide-in-left: slide-in-left 0.28s var(--ease-out-soft) backwards;
+  --animate-slide-out-left: slide-out-left 0.2s ease-in both;
+  --animate-grow-x: grow-x 0.8s var(--ease-out-soft) backwards;
+  --animate-grow-y: grow-y 0.7s var(--ease-out-soft) backwards;
+  --animate-shake: shake 0.4s ease-in-out both;
+  --animate-draw: draw 0.5s 0.15s var(--ease-out-soft) backwards;
+  --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-flow: flow 1.2s linear infinite;
+
+  @keyframes fade-in { from { opacity: 0; } }
+  @keyframes fade-out { to { opacity: 0; } }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(10px); } }
+  @keyframes scale-in { from { opacity: 0; transform: scale(0.96) translateY(-4px); } }
+  @keyframes scale-out { to { opacity: 0; transform: scale(0.97) translateY(-4px); } }
+  @keyframes pop-in { from { opacity: 0; transform: scale(0.4); } }
+  @keyframes slide-down { from { opacity: 0; transform: translateY(-8px); } }
+  @keyframes slide-in-left { from { transform: translateX(-100%); } }
+  @keyframes slide-out-left { to { transform: translateX(-100%); } }
+  @keyframes grow-x { from { transform: scaleX(0); } }
+  @keyframes grow-y { from { transform: scaleY(0); } }
+  @keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+  @keyframes draw { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+  @keyframes sheet-up { from { transform: translateY(100%); } }
+  @keyframes sheet-down { to { transform: translateY(100%); } }
+  @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(1.6); opacity: 0; } }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  @keyframes flow { from { background-position: 0 0; } to { background-position: 28px 0; } }
+}
+
+/* Children of .stagger enter one after another. */
+.stagger > * { animation: var(--animate-fade-up); }
+.stagger > *:nth-child(2) { animation-delay: 50ms; }
+.stagger > *:nth-child(3) { animation-delay: 100ms; }
+.stagger > *:nth-child(4) { animation-delay: 150ms; }
+.stagger > *:nth-child(5) { animation-delay: 200ms; }
+.stagger > *:nth-child(6) { animation-delay: 250ms; }
+.stagger > *:nth-child(n + 7) { animation-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-brand-600) 70%, white);
+  outline-offset: 2px;
+}
+
+/* Hide number spinners on money fields */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+@layer components {
+  .input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-base outline-none transition desk:text-sm
+      focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 disabled:bg-slate-100 disabled:text-slate-500;
+  }
+  .label {
+    @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+  .card {
+    @apply rounded-2xl border border-slate-200/70 bg-white shadow-sm;
+  }
+  .lift {
+    @apply transition duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+  .skeleton {
+    @apply rounded-lg;
+    background: linear-gradient(90deg, var(--color-slate-100) 25%, var(--color-slate-200) 50%, var(--color-slate-100) 75%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+  .money {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* "Not paid yet" stripes, and moving stripes for money in flight */
+.hatched {
+  background-image: repeating-linear-gradient(135deg, var(--color-slate-300) 0 3px, transparent 3px 9px);
+  background-color: var(--color-white);
+}
+.in-flight {
+  background-image: repeating-linear-gradient(135deg, var(--color-amber-400) 0 7px, var(--color-amber-300) 7px 14px);
+  background-size: 28px 100%;
+  animation: var(--animate-flow);
+}
+
+@layer components {
+  .table { @apply w-full text-left text-sm; }
+  .table th {
+    @apply border-b border-slate-200 bg-slate-50 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+  .table td { @apply border-b border-slate-100 px-4 py-3 align-middle; }
+  .table tbody tr { @apply transition-colors; animation: var(--animate-fade-in); }
+  .table tbody tr:hover { @apply bg-slate-50/70; }
+  .table tbody tr:last-child td { @apply border-b-0; }
+
+  /* Phones and tablets: each row becomes a card; cells show their column name. */
+  @media (max-width: 1023px) {
+    .table thead { @apply sr-only; }
+    .table { @apply block p-3; }
+    .table tbody { @apply block; }
+    .table tbody tr { @apply mb-3 block rounded-2xl border border-slate-200 bg-white px-4 py-2 shadow-sm; }
+    .table tbody tr:hover { @apply bg-white; }
+    .table td { @apply flex min-h-10 items-center justify-between gap-4 border-b border-slate-100 px-0 py-2 text-right; }
+    .table td:last-child { @apply border-b-0; }
+    .table td::before {
+      content: attr(data-label);
+      @apply shrink-0 text-left text-xs font-semibold uppercase tracking-wide text-slate-500;
+    }
+    .table td:first-child { @apply justify-start text-left; }
+    .table td:first-child::before, .table td[data-label=""]::before { content: none; }
+    .table td[data-label=""]:not(:first-child) { @apply justify-end; }
+    .table td:empty { display: none; }
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .table tbody { @apply grid grid-cols-2 gap-3; }
+    .table tbody tr { @apply mb-0; }
+  }
+}
