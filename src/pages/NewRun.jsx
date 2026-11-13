@@ -51,13 +51,14 @@ function FromHr() {
             {runs.map((r) => (
               <li key={r.id} className="flex animate-fade-in flex-wrap items-center gap-4 px-4 py-4 sm:px-5">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700"><FileCheck2 className="h-5 w-5" /></span>
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 basis-52">
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-slate-800">
                     {monthLabel(r.period)}
                     {r.status === 'paid' ? <Badge color="green">Paid in HR</Badge> : <Badge color="blue">Approved in HR</Badge>}
                   </p>
                   <p className="text-sm text-slate-500">{plural(r.headcount || 0, 'person', 'people')} · <span className="money">{naira(Math.round((r.net || 0) * 100), { decimals: 0 })}</span> take-home · approved {date(r.approvedAt)}</p>
                 </div>
+                <div className="w-full sm:w-auto [&_a]:block [&_button]:w-full">
                 {r.paymentRunId ? (
                   <Link to={`/runs/${r.paymentRunId}`}><Button variant="secondary" icon={ArrowUpRight}>Open payment run</Button></Link>
                 ) : r.status === 'paid' ? (
@@ -65,6 +66,7 @@ function FromHr() {
                 ) : (
                   <Button icon={Download} loading={busy === r.id} disabled={Boolean(busy)} onClick={() => importRun(r)}>{busy === r.id ? 'Preparing…' : 'Pay this month'}</Button>
                 )}
+                </div>
               </li>
             ))}
           </ul>

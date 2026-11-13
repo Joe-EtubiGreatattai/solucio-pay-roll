@@ -185,16 +185,16 @@ export default function Funds() {
                 <p className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl"><Money kobo={data.balanceKobo} /></p>
                 <p className="mt-2 text-sm text-brand-100">Available to pay salaries</p>
               </div>
-              <dl className="flex gap-8 text-sm">
-                <div><dt className="text-brand-200">Added, last 30 days</dt><dd className="money mt-0.5 text-lg font-semibold">{naira(data.addedLast30Kobo, { decimals: 0 })}</dd></div>
-                <div><dt className="text-brand-200">Paid out, last 30 days</dt><dd className="money mt-0.5 text-lg font-semibold">{naira(data.paidLast30Kobo, { decimals: 0 })}</dd></div>
-                <div><dt className="text-brand-200">Of which fees</dt><dd className="money mt-0.5 text-lg font-semibold">{naira(data.feesLast30Kobo || 0)}</dd></div>
+              <dl className="grid grid-cols-3 gap-3 text-xs sm:flex sm:gap-8 sm:text-sm">
+                <div><dt className="text-brand-200">Added, last 30 days</dt><dd className="money mt-0.5 text-base font-semibold sm:text-lg">{naira(data.addedLast30Kobo, { decimals: 0 })}</dd></div>
+                <div><dt className="text-brand-200">Paid out, last 30 days</dt><dd className="money mt-0.5 text-base font-semibold sm:text-lg">{naira(data.paidLast30Kobo, { decimals: 0 })}</dd></div>
+                <div><dt className="text-brand-200">Of which fees</dt><dd className="money mt-0.5 text-base font-semibold sm:text-lg">{naira(data.feesLast30Kobo || 0, { decimals: 0 })}</dd></div>
               </dl>
             </div>
             {data.integrity && (
               <p className={`relative mt-5 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${data.integrity.ok ? 'bg-white/10 text-brand-50' : 'bg-rose-500 text-white'}`}>
                 {data.integrity.ok ? <BadgeCheck className="h-3.5 w-3.5" /> : <ShieldAlert className="h-3.5 w-3.5" />}
-                {data.integrity.ok ? `Balance matches all ${data.integrity.entries} entries below` : 'The balance doesn’t match its history. Don’t approve payments; contact support.'}
+                {data.integrity.ok ? `Balance matches ${data.integrity.entries ? `all ${data.integrity.entries} entries` : 'its history'} below` : 'The balance doesn’t match its history. Don’t approve payments; contact support.'}
               </p>
             )}
           </section>
@@ -227,10 +227,10 @@ export default function Funds() {
                     return (
                       <tr key={e.id}>
                         <td data-label="">
-                          <div className="flex items-center gap-3">
+                          <div className="flex w-full items-center gap-3">
                             <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${e.amountKobo > 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}><k.icon className="h-4 w-4" /></span>
                             <div className="min-w-0">
-                              <p className="truncate font-medium text-slate-800">{e.description}</p>
+                              <p className="font-medium text-slate-800 lg:truncate">{e.description}</p>
                               <Badge color={k.color}>{k.label}</Badge>
                               {e.run && <Link to={`/runs/${e.run}`} className="ml-2 text-xs font-semibold text-brand-700 hover:underline">View run</Link>}
                             </div>

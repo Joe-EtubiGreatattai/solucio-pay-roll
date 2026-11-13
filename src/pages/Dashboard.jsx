@@ -102,7 +102,7 @@ export default function Dashboard() {
         </Link>
         <StatCard label="Active employees" icon={Users} tone="blue" value={<Animated value={data.employees} />} hint="On payroll" />
         <StatCard label="Monthly payroll" icon={Banknote} tone="green" value={<Money kobo={data.monthlyKobo} decimals={0} />} hint="Sum of active salaries" />
-        <StatCard label="Last paid" icon={CalendarClock} tone="slate" value={last ? date(last.approvedAt || last.createdAt) : 'Not yet'} hint={last ? last.title : 'No completed runs'} />
+        <StatCard label="Last paid" icon={CalendarClock} tone="slate" value={last ? new Date(last.approvedAt || last.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : 'Not yet'} hint={last ? last.title : 'No completed runs'} />
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3">

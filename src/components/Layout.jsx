@@ -65,6 +65,7 @@ function QuickSearch() {
   const [active, setActive] = useState(0);
   const input = useRef();
   const navigate = useNavigate();
+  const narrow = typeof window !== 'undefined' && window.matchMedia('(max-width: 639px)').matches;
   const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
 
   const load = () => {
@@ -96,7 +97,7 @@ function QuickSearch() {
   return (
     <div className="relative w-full max-w-sm">
       <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-      <input ref={input} value={q} placeholder="Search employees and runs" aria-label="Search employees and payroll runs" role="combobox"
+      <input ref={input} value={q} placeholder={narrow ? 'Search' : 'Search employees and runs'} aria-label="Search employees and payroll runs" role="combobox"
         aria-expanded={open && Boolean(q.trim())} aria-controls="quick-search-results" aria-autocomplete="list"
         className="w-full rounded-full border border-slate-200 bg-white py-2.5 pl-11 pr-16 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 desk:text-sm"
         onChange={(e) => { setQ(e.target.value); setOpen(true); setActive(0); }}
@@ -149,8 +150,8 @@ export default function Layout({ children }) {
   const mode = MODES[health?.paystack];
 
   return (
-    <div className="min-h-screen bg-slate-200/60 p-2 sm:p-4">
-      <div className="flex min-h-[calc(100vh-1rem)] gap-4 rounded-[2rem] bg-white p-3 sm:min-h-[calc(100vh-2rem)] sm:p-4">
+    <div className="min-h-screen bg-white sm:bg-slate-200/60 sm:p-4">
+      <div className="flex min-h-screen gap-4 bg-white p-2 sm:min-h-[calc(100vh-2rem)] sm:rounded-[2rem] sm:p-4">
         <aside className="sticky top-4 hidden h-[calc(100vh-4rem)] w-64 shrink-0 lg:block"><Sidebar onLogout={logout} /></aside>
         {drawerAnim.mounted && (
           <div className="fixed inset-0 z-50 lg:hidden">
@@ -159,7 +160,7 @@ export default function Layout({ children }) {
             <button type="button" aria-label="Close menu" className="absolute left-[18.5rem] top-4 text-white" onClick={() => setDrawer(false)}><X /></button>
           </div>
         )}
-        <div className="flex min-w-0 flex-1 flex-col gap-4">
+        <div className="flex min-w-0 flex-1 flex-col gap-2 sm:gap-4">
           <header className="flex items-center gap-3 rounded-3xl bg-slate-100/80 px-3 py-3 sm:px-5">
             <button type="button" aria-label="Open menu" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white lg:hidden" onClick={() => setDrawer(true)}><Menu className="h-5 w-5" /></button>
             <QuickSearch />
@@ -183,7 +184,7 @@ export default function Layout({ children }) {
               </Link>
             </div>
           </header>
-          <main className="flex-1 rounded-3xl bg-slate-100/80 p-4 sm:p-6 lg:p-8">
+          <main className="flex-1 rounded-3xl bg-slate-100/80 px-3 py-5 sm:p-6 lg:p-8">
             <div key={location.pathname} className="animate-fade-up">{children}</div>
           </main>
         </div>

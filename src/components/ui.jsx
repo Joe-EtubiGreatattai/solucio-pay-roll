@@ -56,7 +56,7 @@ export function PageHeader({ title, subtitle, actions, back }) {
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">{title}</h1>
         {subtitle && <div className="mt-1 text-sm text-slate-500">{subtitle}</div>}
       </div>
-      {actions && <div className="flex w-full flex-wrap gap-2 sm:w-auto [&>*]:flex-1 sm:[&>*]:flex-none">{actions}</div>}
+      {actions && <div className="flex w-full flex-wrap gap-2 sm:w-auto [&>*]:flex-1 [&>*]:whitespace-nowrap [&>*]:px-3 sm:[&>*]:flex-none sm:[&>*]:px-5">{actions}</div>}
     </div>
   );
 }

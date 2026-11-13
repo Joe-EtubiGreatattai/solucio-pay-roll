@@ -158,4 +158,19 @@ input[type="number"] { -moz-appearance: textfield; }
     .table tbody { @apply grid grid-cols-2 gap-3; }
     .table tbody tr { @apply mb-0; }
   }
+  /* Phones: a plain list inside the card (no card-in-card), labels in sentence case, tighter rows */
+  @media (max-width: 639px) {
+    .table { @apply p-0; }
+    .table tbody tr { @apply mb-0 rounded-none border-0 border-b border-slate-100 px-4 py-3 shadow-none; }
+    .table tbody tr:last-child { @apply border-b-0; }
+    .table td { @apply min-h-0 border-b-0 py-1; }
+    .table td:first-child { @apply pb-2; }
+    .table td::before { @apply text-xs font-medium normal-case tracking-normal text-slate-500; }
+    .table td[data-label=""]:not(:first-child) { @apply pt-1; }
+    /* Row actions (edit, remove…) sit top-right instead of taking a row of their own */
+    .table tbody tr { position: relative; }
+    .table tbody tr > td[data-label=""]:last-child:not(:first-child) { @apply absolute right-2 top-2 p-0; }
+    .table tbody tr:has(> td[data-label=""]:last-child:not(:first-child)) > td:first-child { padding-right: 5.5rem; }
+  }
+  .table td > * { min-width: 0; }
 }
